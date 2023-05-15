@@ -24,7 +24,11 @@ function getRecipesFromStorage() {
   // A9. TODO - Complete the functionality as described in this function
   //           header. It is possible in only a single line, but should
   //           be no more than a few lines.
-  return JSON.parse(localStorage.getItem("recipes"));
+  let recipes =  JSON.parse(localStorage.getItem("recipes"));
+  if (recipes==null) {
+    return [];
+  }
+  return recipes;
 }
 
 /**
@@ -36,6 +40,7 @@ function getRecipesFromStorage() {
  */
 function addRecipesToDocument(recipes) {
   // A10. TODO - Get a reference to the <main> element
+
   var main = document.querySelector('main');
   // A11. TODO - Loop through each of the recipes in the passed in array,
   //            create a <recipe-card> element for each one, and populate
@@ -70,7 +75,6 @@ function initFormHandler() {
   // B2. TODO - Get a reference to the <form> element
 
   let form = document.querySelector('form');
-  
   // B3. TODO - Add an event listener for the 'submit' event, which fires when the
   //            submit button is clicked
 
@@ -86,9 +90,11 @@ function initFormHandler() {
   // B9. TODO - Get the recipes array from localStorage, add this new recipe to it, and
   //            then save the recipes array back to localStorage
   submit.addEventListener('click', function(){
-    let formData = new FormData(form);
 
-    let formValues = {};
+    
+    var formData = new FormData(form);
+    var formValues = {};
+
     formValues.imgSrc = formData.get("imgSrc");
     formValues.imgAlt = formData.get("imgAlt");
     formValues.titleTxt = formData.get("titleTxt");
@@ -97,9 +103,7 @@ function initFormHandler() {
     formValues.lengthTime = formData.get("lengthTime");
     formValues.ingredients = formData.get("ingredients");
     formValues.numRatings = formData.get("numRatings");
-    formValues.rating = formData.get("rating")
-
-    console.log(formValues);
+    formValues.rating = formData.get("rating");
 
     let card = document.createElement('recipe-card');
 
@@ -109,7 +113,7 @@ function initFormHandler() {
     main.append(card);
 
     let recipes = getRecipesFromStorage();
-    recipes.append(formData);
+    recipes.push(formValues);
     saveRecipesToStorage(recipes);
   });
 
