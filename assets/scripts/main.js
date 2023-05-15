@@ -28,6 +28,7 @@ function getRecipesFromStorage() {
   if (recipes==null) {
     return [];
   }
+  
   return recipes;
 }
 
